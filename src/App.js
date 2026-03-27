@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { trackBehavior, applyTheme } from "./behavior";
+import Chart from "./Chart";
+import Login from "./Login";
 
 function App() {
   const [mode, setMode] = useState("auto");
+  const [clicks, setClicks] = useState(0);
+  const [scroll, setScroll] = useState(0);
+  const [user, setUser] = useState(null);
+  const [layout, setLayout] = useState("normal");
 
   useEffect(() => {
     trackBehavior();
@@ -12,32 +18,39 @@ function App() {
       if (mode === "auto") {
         applyTheme();
       }
-    }, 3000);
+
+      setClicks(localStorage.getItem("clicks") || 0);
+      setScroll(localStorage.getItem("scrollDepth") || 0);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [mode]);
 
-  // Manual theme switch
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) setUser(savedUser);
+  }, []);
+
   const setTheme = (theme) => {
     document.body.className = theme;
-    localStorage.setItem("manualTheme", theme);
     setMode("manual");
   };
 
-  // Load saved theme
-  useEffect(() => {
-    const saved = localStorage.getItem("manualTheme");
-    if (saved) {
-      document.body.className = saved;
-      setMode("manual");
-    }
-  }, []);
+  // AI-like prediction (simple logic)
+  const predictUser = () => {
+    if (clicks > 20) return "Active User";
+    if (scroll > 800) return "Explorer";
+    return "Casual User";
+  };
+
+  if (!user) {
+    return <Login setUser={setUser} />;
+  }
 
   return (
-    <div>
-      {/* Navbar */}
+    <div className={layout}>
       <div className="navbar">
-        <h2>Theme Engine</h2>
+        <h2>Welcome, {user}</h2>
 
         <div>
           <button onClick={() => setTheme("default")}>Light</button>
@@ -47,29 +60,17 @@ function App() {
         </div>
       </div>
 
-      {/* Hero */}
       <div className="hero">
-        <h1>Smart UI Experience</h1>
-        <p>
-          This website automatically adapts its theme based on your behavior
-        </p>
-      </div>
-
-      {/* Sections */}
-      <div className="section">
-        <h2>Feature 1</h2>
-        <p>Dynamic UI based on user interaction</p>
+        <h1>Smart Theme Engine</h1>
+        <p>{predictUser()}</p>
       </div>
 
       <div className="section">
-        <h2>Feature 2</h2>
-        <p>Manual override for better control</p>
+        <button onClick={() => setLayout("normal")}>Normal Layout</button>
+        <button onClick={() => setLayout("grid")}>Grid Layout</button>
       </div>
 
-      <div className="section">
-        <h2>Feature 3</h2>
-        <p>Real-time adaptation system</p>
-      </div>
+      <Chart clicks={clicks} scroll={scroll} />
 
       <div style={{ height: "1000px" }}></div>
     </div>
