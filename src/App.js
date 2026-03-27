@@ -3,38 +3,75 @@ import "./App.css";
 import { trackBehavior, applyTheme } from "./behavior";
 
 function App() {
-
-  const [clicks, setClicks] = useState(0);
-  const [scroll, setScroll] = useState(0);
+  const [mode, setMode] = useState("auto");
 
   useEffect(() => {
     trackBehavior();
 
     const interval = setInterval(() => {
-      applyTheme();
-
-      setClicks(localStorage.getItem("clicks") || 0);
-      setScroll(localStorage.getItem("scrollDepth") || 0);
-
-    }, 2000);
+      if (mode === "auto") {
+        applyTheme();
+      }
+    }, 3000);
 
     return () => clearInterval(interval);
+  }, [mode]);
+
+  // Manual theme switch
+  const setTheme = (theme) => {
+    document.body.className = theme;
+    localStorage.setItem("manualTheme", theme);
+    setMode("manual");
+  };
+
+  // Load saved theme
+  useEffect(() => {
+    const saved = localStorage.getItem("manualTheme");
+    if (saved) {
+      document.body.className = saved;
+      setMode("manual");
+    }
   }, []);
 
   return (
-    <div className="container">
-      <div className="card">
-        <h1>Smart Theme Engine</h1>
-        <p>UI adapts based on your behavior</p>
+    <div>
+      {/* Navbar */}
+      <div className="navbar">
+        <h2>Theme Engine</h2>
 
-        <button>Click Me</button>
-
-        <h3>Live Stats</h3>
-        <p>Clicks: {clicks}</p>
-        <p>Scroll Depth: {scroll}px</p>
+        <div>
+          <button onClick={() => setTheme("default")}>Light</button>
+          <button onClick={() => setTheme("dark")}>Dark</button>
+          <button onClick={() => setTheme("minimal")}>Minimal</button>
+          <button onClick={() => setMode("auto")}>Auto</button>
+        </div>
       </div>
 
-      <div style={{ height: "1500px" }}></div>
+      {/* Hero */}
+      <div className="hero">
+        <h1>Smart UI Experience</h1>
+        <p>
+          This website automatically adapts its theme based on your behavior
+        </p>
+      </div>
+
+      {/* Sections */}
+      <div className="section">
+        <h2>Feature 1</h2>
+        <p>Dynamic UI based on user interaction</p>
+      </div>
+
+      <div className="section">
+        <h2>Feature 2</h2>
+        <p>Manual override for better control</p>
+      </div>
+
+      <div className="section">
+        <h2>Feature 3</h2>
+        <p>Real-time adaptation system</p>
+      </div>
+
+      <div style={{ height: "1000px" }}></div>
     </div>
   );
 }
