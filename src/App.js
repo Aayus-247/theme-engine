@@ -36,7 +36,6 @@ function App() {
     setMode("manual");
   };
 
-  // AI-like prediction (simple logic)
   const predictUser = () => {
     if (clicks > 20) return "Active User";
     if (scroll > 800) return "Explorer";
@@ -49,6 +48,10 @@ function App() {
 
   return (
     <div className={layout}>
+      
+      {/* TEST LINE FIXED */}
+      <h1 style={{ color: "red" }}>HELLO TEST</h1>
+
       <div className="navbar">
         <h2>Welcome, {user}</h2>
 
@@ -77,5 +80,4 @@ function App() {
   );
 }
 
-<h1>HELLO TEST</h1>
 export default App;
