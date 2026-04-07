@@ -1,0 +1,307 @@
+/* =============================================
+   BASE RESET
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  transition:
+    background 0.6s ease,
+    color 0.6s ease,
+    font-family 0.3s ease;
+}
+
+/* =============================================
+   THEME 1 — LIGHT
+   Clean minimal, airy, white-space heavy
+   ============================================= */
+body[data-theme="theme-light"] {
+  --bg:         #f9fafb;
+  --bg2:        #ffffff;
+  --text:       #1a1a2e;
+  --text2:      #555;
+  --accent:     #4f8ef7;
+  --accent2:    #e8f0fe;
+  --border:     #e0e0e0;
+  --nav-bg:     #ffffff;
+  --nav-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --card-bg:    #ffffff;
+  --card-shadow:0 4px 20px rgba(0,0,0,0.06);
+  --btn-bg:     #4f8ef7;
+  --btn-text:   #fff;
+  --badge-bg:   #e8f0fe;
+  --badge-text: #1a5fcc;
+  background:   var(--bg);
+  color:        var(--text);
+  font-family:  'Segoe UI', sans-serif;
+}
+
+/* =============================================
+   THEME 2 — NORMAL
+   Balanced, neutral, everyday feel
+   ============================================= */
+body[data-theme="theme-normal"] {
+  --bg:         #e8eaf0;   /* was #f0f2f5 — noticeably cooler grey */
+  --bg2:        #d0d4de24;   /* was #e4e6ea — darker secondary */
+  --text:       #1c1e21;
+  --text2:      #4a5568;   /* was #606770 — slightly more muted */
+  --accent:     #6c63ff;   /* was #1877f2 — purple instead of blue, clearly distinct */
+  --accent2:    #ede9ff;   /* was #e7f3ff — matches new purple */
+  --border:     #b0b8cc;   /* was #ccd0d5 — more visible border */
+  --nav-bg:     #f0f1f6;   /* was #fff — slight tint instead of pure white */
+  --card-bg:    #f5f6fa;   /* was #ffffff — off-white cards */
+  --btn-bg:     #6c63ff;   /* was #1877f2 — matches new accent */
+  --btn-text:   #fff;
+  --badge-bg:   #ede9ff;   /* was #e7f3ff */
+  --badge-text: #4b3fd4;   /* was #1877f2 — darker purple for contrast */
+  background:   var(--bg);
+  color:        var(--text);
+  font-family:  'Segoe UI', sans-serif;
+}
+
+/* =============================================
+   THEME 3 — LIGHT DARK (Twilight / Dim)
+   Soft dark — easy on eyes, muted tones
+   ============================================= */
+body[data-theme="theme-light-dark"] {
+  --bg:         #2b2d42;
+  --bg2:        #3a3d56;
+  --text:       #edf2f4;
+  --text2:      #adb5c0;
+  --accent:     #ef233c;
+  --accent2:    #3d1a22;
+  --border:     #444768;
+  --nav-bg:     #1e2035;
+  --nav-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  --card-bg:    #363853;
+  --card-shadow:0 4px 20px rgba(0,0,0,0.3);
+  --btn-bg:     #ef233c;
+  --btn-text:   #fff;
+  --badge-bg:   #3d1a22;
+  --badge-text: #ef233c;
+  background:   var(--bg);
+  color:        var(--text);
+  font-family:  'Georgia', serif;
+}
+
+/* =============================================
+   THEME 4 — DARK
+   Deep dark, high contrast, hacker-feel
+   ============================================= */
+body[data-theme="theme-dark"] {
+  --bg:         #0d0d0d;
+  --bg2:        #1a1a1a;
+  --text:       #e2e8f0;
+  --text2:      #94a3b8;
+  --accent:     #00ff9f;
+  --accent2:    #002212;
+  --border:     #2d2d2d;
+  --nav-bg:     #111111;
+  --nav-shadow: 0 2px 16px rgba(0,255,159,0.08);
+  --card-bg:    #161616;
+  --card-shadow:0 4px 24px rgba(0,0,0,0.6);
+  --btn-bg:     #00ff9f;
+  --btn-text:   #000;
+  --badge-bg:   #002212;
+  --badge-text: #00ff9f;
+  background:   var(--bg);
+  color:        var(--text);
+  font-family:  'Courier New', monospace;
+}
+
+/* =============================================
+   COMPONENTS — all use CSS vars so they
+   automatically match whichever theme is active
+   ============================================= */
+
+/* --- Navbar --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 32px;
+  background: var(--nav-bg);
+  box-shadow: var(--nav-shadow);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+.navbar h2 { font-size: 1.1rem; color: var(--accent); }
+.navbar .nav-actions { display: flex; gap: 8px; align-items: center; }
+
+/* --- Theme badge --- */
+.theme-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  border: 1px solid var(--border);
+  transition: all 0.4s ease;
+}
+
+/* --- Score bar --- */
+.score-bar-wrap {
+  width: 120px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* --- Hero --- */
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  transition: all 0.6s ease;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.hero .subtitle {
+  font-size: 1.1rem;
+  color: var(--text2);
+  margin-bottom: 24px;
+}
+.hero .user-type {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 20px;
+  background: var(--accent2);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* --- Cards grid --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px 32px 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: var(--card-shadow);
+  transition: background 0.6s ease, box-shadow 0.6s ease, transform 0.2s ease;
+}
+.card:hover { transform: translateY(-3px); }
+.card h3 { margin-bottom: 8px; color: var(--accent); font-size: 1rem; }
+.card p  { color: var(--text2); font-size: 0.9rem; line-height: 1.5; }
+
+/* --- Stats panel --- */
+.stats-panel {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 32px 40px;
+}
+.stat-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 28px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  min-width: 130px;
+  transition: background 0.6s ease;
+}
+.stat-box .stat-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.stat-box .stat-label {
+  font-size: 0.8rem;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+/* --- Section --- */
+.section {
+  padding: 40px 32px;
+  text-align: center;
+  color: var(--text2);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+/* --- Buttons --- */
+button {
+  padding: 9px 18px;
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.15s;
+}
+button:hover  { opacity: 0.85; transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+button.secondary {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+/* --- Scroll area --- */
+.scroll-hint {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text2);
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+/* --- Login --- */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+.login-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  width: 320px;
+}
+.login-box h2 { margin-bottom: 24px; color: var(--text); }
+.login-box input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg2);
+  color: var(--text);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  outline: none;
+}
+.login-box input:focus { border-color: var(--accent); }
+.login-box button { width: 100%; }
